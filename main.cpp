@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include "LeakDetector.h"
+
 class Err{
 public:
   Err(int n){
