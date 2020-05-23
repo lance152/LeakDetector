@@ -14,7 +14,7 @@ struct _MemoryHead{
 };
 
 static unsigned long _memory_allocated = 0; //未释放的内存大小
-static _MemoryHead _root = {&root,&root,0,false,NULL,0}; //头节点，默认prev和next都指向其本身
+static _MemoryHead _root = {&_root,&_root,0,false,NULL,0}; //头节点，默认prev和next都指向其本身
 
 unsigned int _leak_detector::callCount = 0;
 
@@ -37,7 +37,9 @@ void * AllocateMemory(size_t _size,bool _array,char* _file,unsigned int _line){
 
   newNode->line = _line;
 
-  _root = newNode; //移动头节点
+   //更新头节点
+   _root.next->prev = newNode;
+   _root.next = newNode;
 
   _memory_allocated += _size; //更新未释放内存
 
